@@ -44,12 +44,15 @@ Create boolean variables to hold data if certain items are being held or not.
  12/6/2021 - maybe make escape room simpler to not bog up code. Thought on situation
  more, utilize cases instead of button groups because it will allow for easy running of methods.
  Replace radio operator button thing with a text field and have the user give an input.
+
+ 12/15/2021 - Don't you hate when your answers are sitting infront of your face the whole time?
+ Figured out how to wrap text a few days ago and im using situation number to track what the radios buttons should be running.
  */
 public class EscapeRoom {
 
     static JPanel panel;
     static JLabel situationText;
-    static JButton confirmButton, nextButton;
+    static JButton confirmButton;
     static JRadioButton optionOne, optionTwo, optionThree, optionFour;
     static int situationNum;
 
@@ -60,7 +63,6 @@ public class EscapeRoom {
         JFrame frame = new JFrame("A normal Escape Room");
         situationText = new JLabel();
         confirmButton = new JButton("Confirm");
-        nextButton = new JButton("Next");
         optionOne = new JRadioButton("Placeholder");
         optionTwo = new JRadioButton("Placeholder");
         optionThree = new JRadioButton("Placeholder");
@@ -68,10 +70,7 @@ public class EscapeRoom {
 
         optionOne.setSelected(true);
 
-
-
         situationText.setBounds(180, 10, 200, 200);
-        nextButton.setBounds(215,190,200,30);
         optionOne.setBounds(190, 190, 200, 30);
         optionTwo.setBounds(190,220, 200, 30);
         optionThree.setBounds(190,250,200,30);
@@ -80,7 +79,6 @@ public class EscapeRoom {
 
         ButtonGroup radios = new ButtonGroup();
 
-        nextButton.addActionListener(new nextListener());
         confirmButton.addActionListener(new confirmListener());
 
         frame.setSize(600, 400);
@@ -92,7 +90,6 @@ public class EscapeRoom {
         radios.add(optionThree);
         radios.add(optionFour);
 
-        panel.add(nextButton);
         panel.add(optionOne);
         panel.add(optionTwo);
         panel.add(optionThree);
@@ -101,6 +98,41 @@ public class EscapeRoom {
         panel.setPreferredSize(new Dimension(200, 200));
         panel.add(confirmButton);
 
+        mainRoom();
+
+        panel.setLayout(null);
+        frame.add(panel);
+        frame.setVisible(true);
+
+    }
+    private class confirmListener implements ActionListener{
+        public void actionPerformed(ActionEvent actionEvent){
+            if(situationNum == 1){
+                if (optionOne.isSelected()) {
+                    nightStand();
+                }
+                if (optionTwo.isSelected()) {
+                    frontDoor();
+                }
+                if (optionThree.isSelected()) {
+                    situationNum = 3;
+                }
+                if (optionFour.isSelected()) {
+                    situationNum = 4;
+                }
+            }
+            else if(situationNum == 11){
+                if (optionThree.isSelected());{
+                    mainRoom();
+                }
+                if(optionFour.isSelected()){
+                    situationText.setText("<html>"+"<p> Its a note from your wife. It says shes out for the day but she needs you to leave to go get groceries.</p>"+"</html>");
+                }
+            }
+        }
+    }
+    public static void mainRoom(){
+        situationNum = 1;
         situationText.setText("<html>" +
                 "<p>You wake up to your room lying in bed and look around. " +
                 "Around you are your night stand with various amounts of randomly" +
@@ -108,62 +140,24 @@ public class EscapeRoom {
                 "kitchen, and a hallway. You never quite understood your houses " +
                 "layout, but its not time to worry about that. Time to start the day!</p>"
                 + "</html>");
-
-        optionOne.setVisible(false);
-        optionTwo.setVisible(false);
-        optionThree.setVisible(false);
-        optionFour.setVisible(false);
-        confirmButton.setVisible(false);
-
-        panel.setLayout(null);
-        frame.add(panel);
-        frame.setVisible(true);
-
-    }
-
-    private class confirmListener implements ActionListener{
-        public void actionPerformed(ActionEvent actionEvent){
-            if(optionOne.isSelected()){
-                nightStand();
-            }
-            if(optionTwo.isSelected()){
-                frontDoor();
-            }
-            if(optionThree.isSelected()){
-                situationNum = 3;
-            }
-            if(optionFour.isSelected()){
-                situationNum = 4;
-            }
-        }
-    }
-
-    private class nextListener implements ActionListener{
-        public void actionPerformed(ActionEvent actionEvent){
-            optionOne.setVisible(true);
-            optionTwo.setVisible(true);
-            optionThree.setVisible(true);
-            optionFour.setVisible(true);
-            confirmButton.setVisible(true);
-            nextButton.setVisible(false);
-            mainRoom();
-        }
-    }
-
-    public static void mainRoom(){
         optionOne.setText("Look at your night stand");
         optionTwo.setText("Observe the front door");
         optionThree.setText("Gaze at the room around");
         optionFour.setText("Contemplate life instead!");
     }
-
     public static void nightStand(){
-        situationText.setText("You look at your cabinet.");
+        situationNum = 11;
+        situationText.setText("<html>"+"" +
+                "<p>You look at your cabinet. On top it are miscellaneous photos, " +
+                "nick nacks, and a note.</p>"
+        +"</html>");
         optionOne.setText("Open Drawer");
         optionTwo.setText("Break lamp");
+        optionThree.setText("Return to main Room");
+        optionFour.setText("Inspect desk further");
     }
-
     public static void frontDoor(){
+        situationNum = 12;
         situationText.setText("You observe the front door.");
     }
 
