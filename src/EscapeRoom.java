@@ -55,6 +55,7 @@ public class EscapeRoom {
     static JButton confirmButton;
     static JRadioButton optionOne, optionTwo, optionThree, optionFour;
     static int situationNum;
+    static boolean trowelOwnership;
 
     public static void main(String[] args) {new EscapeRoom();}
 
@@ -122,11 +123,29 @@ public class EscapeRoom {
                 }
             }
             else if(situationNum == 11){
-                if (optionThree.isSelected());{
+                if(optionOne.isSelected()){
+                    nightStand();
+                    trowelOwnership = true;
+                    situationText.setText("<html>"+"<p> In your drawer, you find a trowel form you dark hay days! " +
+                            "Such dark and cold times... " +
+                            "Reguardless, you decide to keep it for old times sake!</p>"+
+                            "<html>");
+                }
+                if(optionThree.isSelected()){
                     mainRoom();
                 }
                 if(optionFour.isSelected()){
+                    nightStand();
                     situationText.setText("<html>"+"<p> Its a note from your wife. It says shes out for the day but she needs you to leave to go get groceries.</p>"+"</html>");
+                }
+            }
+            else if (situationNum == 12){
+                if(optionTwo.isSelected()){
+                    frontDoor();
+                    situationText.setText("<html>"+
+                            "<p>You break the window with your trusty trowel. You never liked that window. " +
+                            "Always letting light in your eyes... Oh hey now its a way out!</p>"+
+                            "</html>");
                 }
             }
         }
@@ -158,7 +177,24 @@ public class EscapeRoom {
     }
     public static void frontDoor(){
         situationNum = 12;
-        situationText.setText("You observe the front door.");
+        if(trowelOwnership==true){
+            situationText.setText("<html>"+"<p>You observe the front door. It would be a possible exit way, " +
+                    "if only it had an exit sign on top of it, until then. " +
+                    "It is but a humble door way with its window buddy.</p>"+"</html>");
+            optionOne.setText("Try the door handle");
+            optionTwo.setText("Break this happy window friendship");
+            optionThree.setText("Return to main Room");
+            optionFour.setText("Ponder the state of the door");
+        }
+        else{
+            situationText.setText("<html>"+"<p>You observe the front door. It would be a possible exit way, " +
+                    "if only it had an exit sign on top of it, until then. " +
+                    "It is but a humble doorway with its window buddy.</p>"+"</html>");
+            optionOne.setText("Try the door handle");
+            optionTwo.setText("Ponder the window");
+            optionThree.setText("Return to main Room");
+            optionFour.setText("Ponder the state of the door");
+        }
     }
 
 }
